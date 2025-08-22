@@ -13,7 +13,7 @@ jobs:
         run: echo "Building the project..."
 
   test:
-    needs: build  # This job will only run after the 'build' job completes
+  #  needs: build  # This job will only run after the 'build' job completes
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
