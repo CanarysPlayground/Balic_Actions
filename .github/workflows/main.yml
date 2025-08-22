@@ -1,0 +1,35 @@
+name: Build balic
+
+on:
+  create:   # Run when a tag or branch is created
+
+jobs:
+  build-and-push:
+    if: github.ref_type == 'tag' && (startsWith(github.ref, 'refs/tags/uat-') || startsWith(github.ref, 'refs/tags/prod-'))
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Print Tag Info
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "New tag detected: $TAG_NAME"
+          echo "Triggered by: $GITHUB_ACTOR"
+
+      - name: Simulate Build & Push
+        run: |
+          echo "Pretending to build and push Docker image for tag ${GITHUB_REF#refs/tags/}"
+
+      - name: Simulate Deploy to UAT
+        if: startsWith(github.ref, 'refs/tags/uat-')
+        run: |
+          echo "This is a UAT deployment for tag ${GITHUB_REF#refs/tags/}"
+
+      - name: Simulate Deploy to PROD
+        if: startsWith(github.ref, 'refs/tags/prod-')
+        run: |
+          echo "This is a PROD deployment for tag ${GITHUB_REF#refs/tags/}"
+
+
